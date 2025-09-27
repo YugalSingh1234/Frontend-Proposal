@@ -1,13 +1,24 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://fastapi-backend-proposal.onrender.com';
+// Get API configuration from environment variables
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://fastapi-backend-proposal.onrender.com';
+const API_TIMEOUT = parseInt(process.env.REACT_APP_API_TIMEOUT) || 60000;
+
+// Log environment info (only in development)
+if (process.env.NODE_ENV === 'development') {
+  console.log('🔧 API Configuration:', {
+    baseURL: API_BASE_URL,
+    timeout: API_TIMEOUT,
+    env: process.env.REACT_APP_ENV
+  });
+}
 
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 60000, // 60 seconds timeout for slow renders
+  timeout: API_TIMEOUT,
 });
 
 // Add request interceptor for debugging
